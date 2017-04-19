@@ -175,7 +175,11 @@ float encoder_read_deg(void) {
 /**
  * Reset the encoder counter. Should be called from the index interrupt.
  */
+
+static int enc_reset_count = 0;
 void encoder_reset(void) {
+    enc_reset_count++;
+    if (enc_reset_count & 1) { return; }
 	HW_ENC_TIM->CNT = 0;
 	index_found = true;
 }
